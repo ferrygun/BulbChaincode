@@ -1,0 +1,69 @@
+swagger: "2.0"
+
+
+info:
+  description: "Controlling SmartBulb with Blockchain in SAP Cloud Platform."
+  version: "1.0"
+  title: "Control SmartBulb with Blockchain"
+
+############################################################## DEFAULT OUT: JSON
+consumes:
+  - application/json
+produces:
+  - application/json
+
+############################################################# REQUEST PARAMETERS
+parameters:
+
+  objId:
+    name: id
+    in: path
+    description: ID of the object
+    required: true
+    type: string
+    maxLength: 64
+
+  objJSON:
+    name: object
+    in: body
+    description: A (simple structured) object in JSON format
+    required: true
+    schema:
+      type: object
+
+########################################################################## PATHS
+paths:
+
+  /{id}:
+    #-------------------------------------------------------- GET /{id} ==> READ
+    get:
+      operationId: read
+      summary: Read text by ID
+      parameters:
+      - $ref: '#/parameters/objId'
+      produces:
+      - text/plain
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+        400:
+          description: Parameter Mismatch
+        404:
+          description: Not Found
+        500:
+          description: Failed
+
+    #----------------------------------------------------- POST /{id} ==> CREATE
+    post:
+      operationId: write
+      summary: Create Object
+      parameters:
+      - $ref: '#/parameters/objId'
+      - $ref: '#/parameters/objJSON'
+      responses:
+        200:
+          description: Created
+        500:
+          description: Failed
